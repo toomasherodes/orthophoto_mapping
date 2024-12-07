@@ -35,7 +35,12 @@ def get_polygons_from_csv(sample_csv_path):
     current_dir = os.path.dirname(__file__)
     f = open(os.path.join(current_dir, sample_csv_path), encoding='utf-8')
     df = pd.read_csv(f, encoding='utf-8', delimiter=';', low_memory=False)
-    parsed_geom = df.geometry.apply(wkb_to_polygons).dropna()
+    
+    keywords = ['HOONE', 'RAJATIS', 'HOONERAJ']
+    pattern = '|'.join(keywords)
+    filtered_df = df[df['nahtus'].str.contains(pattern, case=False, na=False)]
+    
+    parsed_geom = filtered_df.geometry.apply(wkb_to_polygons).dropna()
     print("finished parsing polygons")
     return parsed_geom.tolist()
 
