@@ -48,7 +48,7 @@ if __name__ == '__main__':
     print(f"{total_trainable_params:,} training parameters.")
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-    criterion = nn.CrossEntropyLoss() 
+    criterion = nn.CrossEntropyLoss(ignore_index=-1) 
 
     train_images, train_masks, valid_images, valid_masks = get_images(data_root='../data')
 

@@ -59,10 +59,22 @@ class SegmentationDataset(Dataset):
 
     def __getitem__(self, index):
         image = np.array(Image.open(self.image_paths[index]).convert('RGB'))
-        mask = np.array(Image.open(self.mask_paths[index]).convert('RGB'))
+        mask = np.array(Image.open(self.mask_paths[index]).convert('L'))
+
+        if self.tfms:
+            transformed = self.tfms(image=image, mask=mask)
+            image = transformed['image']
+            mask = transformed['mask']
+
+        mask = mask.astype(np.int32)
+        mask[mask == 255] = -1
+
+        if self.norm_tfms:
+            normalized = self.norm_tfms(image=image)
+            image = normalized['image']
         
-        image = torch.tensor(image, dtype=torch.float)
-        mask = torch.tensor(mask, dtype=torch.long) 
+        image = torch.tensor(image, dtype=torch.float).permute(2, 0, 1)
+        mask = torch.tensor(mask, dtype=torch.long)
 
         return image, mask
 

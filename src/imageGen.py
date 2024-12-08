@@ -42,6 +42,6 @@ def generate_train_validation_set(train_path, validation_path, input_image, targ
         input_img.crop(box).save(out_input)
         target_img.crop(box).save(out_target)
 
-polygons = get_polygons_from_csv('./data/csv/data_eesti.csv')
-generate_image('./data/img/target.tif', 25000, polygons)
-generate_train_validation_set('./data/train', './data/validation', 'input.tif', 'target.tif', './data/img')
+# polygons = get_polygons_from_csv('../data/csv/data_eesti.csv')
+# generate_image('data/img/target.tif', 25000, polygons)
+generate_train_validation_set('data/train', 'data/validation', 'input.tif', 'target.tif', 'data/img')

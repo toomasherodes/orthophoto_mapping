@@ -28,9 +28,9 @@ def train(model, train_dataset, train_dataloader, device, optimizer, criterion, 
 
         # For pixel accuracy.
         labeled, correct = pix_acc(target, outputs, num_classes)
-        train_running_label += labeled.sum()
+        train_running_label += labeled
         train_running_correct += correct
-        train_running_pixacc = 1.0 * correct / (np.spacing(1) + labeled.sum())
+        train_running_pixacc = 1.0 * correct / (np.spacing(1) + labeled)
         #############################
 
         ##### BACKPROPAGATION AND PARAMETER UPDATION #####
@@ -38,7 +38,7 @@ def train(model, train_dataset, train_dataloader, device, optimizer, criterion, 
         optimizer.step()
         ##################################################
 
-        prog_bar.set_description(desc=f"Loss: {loss.detach().cpu().numpy():.4f} | PixAcc: {train_running_pixacc.cpu().numpy()*100:.2f}")
+        prog_bar.set_description(desc=f"Loss: {loss.detach().cpu().numpy():.4f} | PixAcc: {train_running_pixacc*100:.2f}")
         
     train_loss = train_running_loss / counter
     pixel_acc = ((1.0 * train_running_correct) / (np.spacing(1) + train_running_label)) * 100
@@ -80,12 +80,12 @@ def validate(model, valid_dataset, valid_dataloader, device, criterion, classes_
 
             # For pixel accuracy.
             labeled, correct = pix_acc(target, outputs, num_classes)
-            valid_running_label += labeled.sum()
+            valid_running_label += labeled
             valid_running_correct += correct
-            valid_running_pixacc = 1.0 * correct / (np.spacing(1) + labeled.sum())
+            valid_running_pixacc = 1.0 * correct / (np.spacing(1) + labeled)
             #############################
 
-            prog_bar.set_description(desc=f"Loss: {loss.detach().cpu().numpy():.4f} | PixAcc: {valid_running_pixacc.cpu().numpy()*100:.2f}")
+            prog_bar.set_description(desc=f"Loss: {loss.detach().cpu().numpy():.4f} | PixAcc: {valid_running_pixacc*100:.2f}")
     
     valid_loss = valid_running_loss / counter
     pixel_acc = ((1.0 * valid_running_correct) / (np.spacing(1) + valid_running_label)) * 100.
