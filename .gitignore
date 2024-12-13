@@ -1,1 +1,7 @@
-data/*
+data/img/*
+data/csv/*
+data/train/input/*
+data/train/target/*
+data/validation/input/*
+data/validation/target/*
+outputs/*
