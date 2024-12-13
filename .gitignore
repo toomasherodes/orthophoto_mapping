@@ -1,4 +1,5 @@
-data/img/*
+data/img/input.tif
+data/img/target.tif
 data/csv/*
 data/train/input/*
 data/train/target/*

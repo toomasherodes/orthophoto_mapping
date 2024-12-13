@@ -7,7 +7,7 @@ Config file for the images created
 Dataset preparation scripts
 
 #### engine.py
-Functions for training (loss funtion for example)
+Functions for training and validation (also has a custom loss function that was ultimately not used)
 
 #### imageGen.py
 Functions to create test/val/train images for the model
@@ -25,7 +25,7 @@ Functions/scripts for exstracting data from csv file (see sample in data/csv).
 Tool for testing the model
 
 #### train.py
-Model training
+Model training (run this to train the model, use custom parameters `--epochs`, `--batch` and `--lr` to tweak the number of epochs, batches and the learning rate)
 
 #### utils.py
 Tools for displaying, overlaying, analyzing etc images.
