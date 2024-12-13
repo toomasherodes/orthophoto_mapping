@@ -12,9 +12,9 @@ The model is trained on a DeepLabv3 model using our custom dataset consisting of
 
 The trained model was capable of identifying buildings on an orthophoto. However, the detection accuracy was low and not all buildings were correctly identified, smaller houses mostly went undetected. Moreover, the buildings were never fully detected and the model was only capable of drawing a blob in the middle of the house.
 
-[model input](./img/model_input.jpg)
-[model output](./img/model_output.jpg)
-[truth](./img/truth.jpg)
+[model input](./img/sample/model_input.jpg)
+[model output](./img/sample/model_output.jpg)
+[truth](./img/sample/truth.jpg)
 
 ## Data sources
 
