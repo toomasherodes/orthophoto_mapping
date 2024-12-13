@@ -18,7 +18,7 @@ def image_from_csv():
     generate_image("data/img/tartu.tif", 25000, polygons)
 
 
-def generate_train_validation_set(train_path, validation_path, input_image, target_image, data_path, validation_weight=0.2, tile_size=500):
+def generate_train_validation_set(train_path, validation_path, input_image, target_image, data_path, validation_weight=0.2, tile_size=250):
     PIL.Image.MAX_IMAGE_PIXELS = None
     input_name, input_ext = os.path.splitext(input_image)
     input_img = PIL.Image.open(os.path.join(data_path, input_image))
@@ -42,6 +42,6 @@ def generate_train_validation_set(train_path, validation_path, input_image, targ
         input_img.crop(box).save(out_input)
         target_img.crop(box).save(out_target)
 
-# polygons = get_polygons_from_csv('../data/csv/data_eesti.csv')
-# generate_image('data/img/target.tif', 25000, polygons)
+polygons = get_polygons_from_csv('../data/csv/data_eesti.csv')
+generate_image('data/img/target.tif', 25000, polygons)
 generate_train_validation_set('data/train', 'data/validation', 'input.tif', 'target.tif', 'data/img')

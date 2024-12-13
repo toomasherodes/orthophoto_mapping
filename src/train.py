@@ -12,13 +12,13 @@ from utils import save_model, SaveBestModel, save_plots
 parser = argparse.ArgumentParser()
 parser.add_argument(
     '--epochs',
-    default=10,
+    default=1,
     help='number of epochs to train for',
     type=int
 )
 parser.add_argument(
     '--lr',
-    default=0.0001,
+    default=0.00002,
     help='learning rate for optimizer',
     type=float
 )
@@ -38,7 +38,8 @@ if __name__ == '__main__':
     os.makedirs(out_dir, exist_ok=True)
     os.makedirs(out_dir_valid_preds, exist_ok=True)
 
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda:0')
+    print(f"using device {device}")
     model = prepare_model(num_classes=len(ALL_CLASSES)).to(device)
     # Total parameters and trainable parameters.
     total_params = sum(p.numel() for p in model.parameters())
@@ -47,8 +48,10 @@ if __name__ == '__main__':
         p.numel() for p in model.parameters() if p.requires_grad)
     print(f"{total_trainable_params:,} training parameters.")
 
+    weights = torch.tensor([1.0, 15.0]).to(device)
+
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
-    criterion = nn.CrossEntropyLoss(ignore_index=-1) 
+    criterion = nn.CrossEntropyLoss(ignore_index=-1, weight=weights)
 
     train_images, train_masks, valid_images, valid_masks = get_images(data_root='../data')
 
@@ -62,7 +65,7 @@ if __name__ == '__main__':
         ALL_CLASSES,
         classes_to_train,
         LABEL_COLORS_LIST,
-        img_size=224
+        img_size=250
     )
 
     train_dataloader, valid_dataloader = get_data_loaders(
@@ -99,9 +102,9 @@ if __name__ == '__main__':
             save_dir=out_dir_valid_preds
         )
         train_loss.append(train_epoch_loss)
-        train_pix_acc.append(train_epoch_pixacc.cpu())
+        train_pix_acc.append(train_epoch_pixacc)
         valid_loss.append(valid_epoch_loss)
-        valid_pix_acc.append(valid_epoch_pixacc.cpu())
+        valid_pix_acc.append(valid_epoch_pixacc)
 
         save_best_model(
             valid_epoch_loss, epoch, model, out_dir

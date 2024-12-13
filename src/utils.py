@@ -25,10 +25,10 @@ def draw_translucent_seg_maps(data, output, epoch, i, val_seg_dir, label_colors_
     beta = 0.6 # alpha + beta should be 1
     gamma = 0 # contrast
 
-    seg_map = output[0] # use only one output from the batch
+    seg_map = output[1] # use only one output from the batch
     seg_map = torch.argmax(seg_map.squeeze(), dim=0).detach().cpu().numpy()
 
-    image = data[0]
+    image = data[1]
     image = np.array(image.cpu())
     image = np.transpose(image, (1, 2, 0))
     # unnormalize the image (important step)
